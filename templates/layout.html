@@ -9,7 +9,38 @@
     <link rel="stylesheet" href="./static/pico.min.css">
 </head>
 <body>
-    {% block main %}
-    {% endblock %}
+    <div class="container">
+        <nav>
+            <ul>
+                <li><strong>Neural Ticker</strong></li>
+            </ul>
+            <ul>
+                <li><a href="/" class="secondary">Watchlist</a></li>
+                <li><a href="search" class="secondary">Search</a></li>
+                <li>
+                    <details class="dropdown">
+                        <summary>
+                            Account
+                        </summary>
+                        {% if session["user_id"] %}
+                            <ul dir="rtl">
+                                <li><a href="logout">Logout</a></li>
+                                <li><a href="settings">Settings</a></li>
+                            </ul>
+                        {% else %}
+                            <ul dir="rtl">
+                                <li><a href="login">Login</a></li>
+                                <li><a href="register">Register</a></li>
+                            </ul>
+                        {% endif %}
+                    </details>
+                </li>
+            </ul>
+        </nav>
+        <div style="padding-top: 2rem;">
+            {% block main %}
+            {% endblock %}
+        </div>
+    </div>
 </body>
 </html>

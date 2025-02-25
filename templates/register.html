@@ -1,19 +1,17 @@
 {% extends "layout.html" %}
 
 {% block main %}
-    <div class="container" style="padding-top: 4rem;">
-       <form action="/register" method="post">
-            <div>
-                <input autocomplete="off" autofocus name="username" placeholder="Username" type="text">
-            </div>
-            <div>
-                <input name="password" placeholder="Password" type="password">
-            </div>
-            <div>
-                <input name="confirmation" placeholder="Confirmation" type="password">
-            </div>
-            <button type="submit">Register</button>
-        </form>
-    </div>
+   <form action="/register" method="post">
+        <div>
+            <input autocomplete="off" autofocus name="username" placeholder="Username" type="text">
+        </div>
+        <div>
+            <input name="password" placeholder="Password" type="password">
+        </div>
+        <div>
+            <input name="confirmation" placeholder="Confirmation" type="password">
+        </div>
+        <button type="submit">Register</button>
+    </form>
 
 {% endblock %}

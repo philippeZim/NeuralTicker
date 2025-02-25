@@ -1,4 +1,5 @@
 from database import SQL
+from my_database import setup
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -12,6 +13,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 Library to use SQLite database
+setup()
 db = SQL("sqlite:///neuralTicker.db")
 
 
@@ -84,9 +86,16 @@ def login():
         return render_template("login.html")
 
 
+@app.route("/logout")
+def logout():
+    session["user_id"] = None
+    return redirect("/")
+
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
         pass
     else:
+        # get users selected stocks
+
         return render_template("index.html")
