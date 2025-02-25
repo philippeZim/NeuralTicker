@@ -6,3 +6,5 @@ requests
 sqlalchemy
 sqlparse
 termcolor
+yfinance
+pandas

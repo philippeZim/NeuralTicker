@@ -83,3 +83,10 @@ def login():
     else:
         return render_template("login.html")
 
+
+@app.route("/", methods=["GET", "POST"])
+def index():
+    if request.method == "POST":
+        pass
+    else:
+        return render_template("index.html")
