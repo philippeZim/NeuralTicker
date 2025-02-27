@@ -8,7 +8,8 @@ def setup():
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT UNIQUE NOT NULL,
-            hash TEXT NOT NULL
+            hash TEXT NOT NULL,
+            performance TEXT DEFAULT 'week' CHECK (performance IN ('week', 'month', 'year'))
         );
         """)
 
@@ -64,11 +65,3 @@ def load_stock_data():
         except:
             pass
 
-
-def search_stock(query):
-    query = f"%{query}%"  # Prepare for SQL LIKE query
-    results = db.execute("SELECT * FROM stocks WHERE name LIKE ?;", query)
-    results += db.execute("SELECT * FROM stocks WHERE ticker LIKE ?;", query)
-    return results
-
-print(search_stock("goog"))

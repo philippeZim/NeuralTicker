@@ -1,14 +1,39 @@
 {% extends "layout.html" %}
 
 {% block main %}
-    <form action="/search" method="post">
-        <div class="mb-3">
-            <input autocomplete="off" autofocus name="query" placeholder="Name / Symbol" type="text">
-        </div>
-        <button type="submit">Search</button>
-    </form>
-    <form role="search">
-      <input name="search" type="search" placeholder="Search" />
-      <input type="submit" value="Search" />
-    </form>
+<form role="search" method="POST">
+    <input name="search" type="search" placeholder="Name, Ticker" autocomplete="off"/>
+    <input type="submit" value="search"/>
+</form>
+{% if stocks %}
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Logo</th>
+        <th scope="col">Name</th>
+        <th scope="col">Ticker</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for stock in stocks %}
+    <tr>
+        <th scope="row">
+            <div>
+                <img src="{{ stock.logo }}" alt="{{ stock.name }} logo">
+            </div>
+        </th>
+        <td>{{stock.name}}</td>
+        <td>{{stock.ticker}}</td>
+        <td>
+            <form action="/addToWatchlist" method="POST">
+                <input type="hidden" name="stock_id" value="{{ stock.id }}">
+                <button type="submit" class="outline" style="margin-bottom:0px;">Add</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 {% endblock %}

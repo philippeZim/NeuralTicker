@@ -34,9 +34,6 @@ def get_data_single(ticker):
 
     return extract(close_data)
 
-test = get_data_single("aapl")
-print(test)
-
 def get_data(tickers):
     tickers_str = " ".join(tickers)
     data = yf.download(tickers_str, period="1y", interval="1wk")
@@ -50,5 +47,4 @@ def get_data(tickers):
 
     return res
 
-print(get_data(["GOOG", "AAPL", "AMZN"]))
 

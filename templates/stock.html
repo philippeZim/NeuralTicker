@@ -1,4 +1,74 @@
 {% extends "layout.html" %}
 
 {% block main %}
+<article>
+    <header style="display:flex; align-items:center;">
+        <img src="{{ stock.logo }}" alt="{{ stock.name }} logo" style="width: 80px; height: 80px">
+        <h3 style="margin-bottom:0px;">{{ stock.name }}</h3>
+    </header>
+
+    <table>
+        <tbody>
+
+        <tr>
+            <th scope="row">Price</th>
+            <td>{{stock.price}}$</td>
+        </tr>
+        <tr>
+            <th scope="row">Week</th>
+            <td>{{stock.week}}%</td>
+        </tr>
+        <tr>
+            <th scope="row">Month</th>
+            <td>{{stock.month}}%</td>
+        </tr>
+        <tr>
+            <th scope="row">Year</th>
+            <td>{{stock.year}}%</td>
+        </tr>
+        <tr>
+            <th scope="row">ISIN</th>
+            <td>{{stock.isin}}</td>
+        </tr>
+        <tr>
+            <th scope="row">Ticker</th>
+            <td>{{stock.ticker}}</td>
+        </tr>
+
+        </tbody>
+    </table>
+    <script>
+        function search_ai() {
+            document.getElementById("ai").style.display = "none";
+            document.getElementById("wait").style.display = "block";
+
+            fetch('/ai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name": "{{stock.name}}",
+                    "week": {{stock.week}},
+                    "month": {{stock.month}},
+                    "year": {{stock.year}}
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("wait").style.display = "none";
+                document.getElementById("ai").style.display = "block";
+                document.getElementById("footer_id").innerText = data.resp;
+            })
+            .catch(error => {
+                console.error('Error fetching response:', error);
+                document.getElementById("wait").style.display = "none";
+                document.getElementById("ai").style.display = "block";
+            });
+        }
+    </script>
+    <button id="wait" aria-busy="true" class="outline" style="display:none; width:100%;">Please wait…</button>
+    <button id="ai" class="outline" onclick="search_ai()" style="width:100%;">AI</button>
+    <footer id="footer_id"></footer>
+</article>
 {% endblock %}

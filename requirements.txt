@@ -8,3 +8,4 @@ sqlparse
 termcolor
 yfinance
 pandas
+google-genai

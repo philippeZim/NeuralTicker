@@ -1,15 +1,53 @@
 {% extends "layout.html" %}
 
 {% block main %}
-    <form method="POST">
-        <fieldset>
-            <legend>Time frame:</legend>
-            <input type="radio" id="week" name="time_frame" onchange="this.form.submit()" checked />
-            <label htmlFor="week">Week</label>
-            <input type="radio" id="month" name="time_frame" onchange="this.form.submit()" />
-            <label htmlFor="month">Month</label>
-            <input type="radio" id="year" name="time_frame" onchange="this.form.submit()" />
-            <label htmlFor="year">Year</label>
-        </fieldset>
-    </form>
+<form method="POST">
+    <fieldset>
+        <legend>Time frame:</legend>
+        <input type="radio" id="week" name="time_frame" value="week" onchange="this.form.submit()" {% if performance == 'week' %}checked{% endif %}/>
+        <label for="week">Week</label>
+        <input type="radio" id="month" name="time_frame" value="month" onchange="this.form.submit()" {% if performance == 'month' %}checked{% endif %}/>
+        <label for="month">Month</label>
+        <input type="radio" id="year" name="time_frame" value="year" onchange="this.form.submit()" {% if performance == 'year' %}checked{% endif %}/>
+        <label for="year">Year</label>
+    </fieldset>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th scope="col">Logo</th>
+        <th scope="col">Name</th>
+        <th scope="col">Price</th>
+        <th scope="col">Performance</th>
+        <th scope="col">Delete</th>
+        <th scope="col">Detail</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for stock in stocks %}
+    <tr>
+        <th scope="row">
+            <div>
+                <img src="{{ stock.logo }}" alt="{{ stock.name }} logo">
+            </div>
+        </th>
+        <td>{{stock.name}}</td>
+        <td>{{stock.price}}$</td>
+        <td>{{stock.performance}}%</td>
+        <td>
+            <form action="/delFromWatchlist" method="POST">
+                <input type="hidden" name="stock_id" value="{{ stock.id }}">
+                <button type="submit" class="outline" style="margin-bottom:0px;">Del</button>
+            </form>
+        </td>
+        <td>
+            <form action="/stock" method="POST">
+                <input type="hidden" name="stock_id" value="{{ stock.id }}">
+                <button type="submit" class="outline" style="margin-bottom:0px;">View</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
