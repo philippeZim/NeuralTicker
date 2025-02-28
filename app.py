@@ -208,6 +208,7 @@ def ai():
 - Monthly Performance: {data["month"]}%
 - Yearly Performance: {data["year"]}%
 Additionally, find recent news that could explain these stock movements."""
+
     response = client.models.generate_content(
         model=model_id,
         contents=prompt,
