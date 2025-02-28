@@ -203,33 +203,11 @@ def stock():
 @app.route("/ai", methods=["POST"])
 def ai():
     data = request.get_json()
-    prompt = f"""Role: You are a seasoned financial analyst advising investors on stock performance.
-
-Task: Analyze the performance of {data["name"]} stock given the following data:
+    prompt = f"""Analyze and explain the recent performance of  {data["name"]} stock based on the following data:
 - Weekly Performance: {data["week"]}%
 - Monthly Performance: {data["month"]}%
 - Yearly Performance: {data["year"]}%
-
-Process:
-
-1. **Step-by-Step Reasoning (Chain-of-Thought):**
-    Before presenting your final analysis, detail your thought process. Consider factors at different time scales:
-        a. Short-Term (Weekly): What immediate events or sentiments might drive weekly fluctuations?
-        b. Mid-Term (Monthly): What broader trends or company news could explain monthly performance?
-        c. Long-Term (Yearly): What fundamental shifts or macroeconomic conditions are likely influencing the yearly performance?
-
-2. **Factor Analysis:**
-    Analyze the performance by considering both:
-        a. Macro-economic Factors: (e.g., interest rates, inflation, sector trends, global events)
-        b. Company-Specific Factors: (e.g., earnings reports, product releases, management changes, competitive landscape)
-
-3. **Actionable Insights & Further Investigation:**
-    Focus on providing actionable insights for investors. Based on your analysis, suggest concrete areas an investor should investigate further to make informed decisions.
-
-4. **Self-Critique and Refinement:**
-    After drafting your initial analysis, review and critique it for clarity, depth, and the actionability of insights. Rewrite your analysis incorporating your self-critique to enhance its quality.
-
-Output: Present your refined analysis of {data["name"]} stock performance."""
+Additionally, find recent news that could explain these stock movements."""
     response = client.models.generate_content(
         model=model_id,
         contents=prompt,
