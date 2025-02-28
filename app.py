@@ -242,7 +242,33 @@ Output: Present your refined analysis of {data["name"]} stock performance."""
     return jsonify({'resp': text})
 
 
-@app.route("/ai", methods=["POST"])
+@app.route("/settings", methods=["GET", "POST"])
+def settings():
+    if request.method == "POST":
+        old_pass = request.form.get("old_pass")
+        new_pass = request.form.get("new_pass")
+        confirmation = request.form.get("confirmation")
+
+        if not old_pass or not new_pass or not confirmation:
+            message = "empty field submitted"
+            return render_template("error.html", message=message)
+        if new_pass != confirmation:
+            message = "passwords do not match"
+            return render_template("error.html", message=message)
+        if len(new_pass) < 5:
+            message = "password to short"
+            return render_template("error.html", message=message)
+        entry = db.execute("SELECT * FROM users WHERE name = ?", session["user_id"])
+
+        if len(entry) != 1 or not check_password_hash(entry[0]["hash"], old_pass):
+            message = "wrong password"
+            return render_template("error.html", message=message)
+        pass_hash = generate_password_hash(new_pass)
+        db.execute("UPDATE users SET hash = ? WHERE id = ?", pass_hash, session["user_id"])
+
+    else:
+        username = db.execute("SELECT * FROM users WHERE id = ?", session["user_id"])[0]["name"]
+        return render_template("settings.html", username=username)
 
 
 
